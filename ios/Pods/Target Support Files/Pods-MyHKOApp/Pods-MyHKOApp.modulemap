@@ -1,0 +1,6 @@
+module Pods_MyHKOApp {
+  umbrella header "Pods-MyHKOApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

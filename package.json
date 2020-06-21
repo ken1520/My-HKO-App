@@ -15,6 +15,7 @@
     "accordion-collapse-react-native": "^0.2.10",
     "axios": "^0.19.2",
     "base-64": "^0.1.0",
+    "dateformat": "^3.0.3",
     "native-base": "^2.13.12",
     "react": "16.11.0",
     "react-native": "0.62.2",

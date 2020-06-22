@@ -47,7 +47,6 @@ export default class RainFall extends Component {
           <Image style={styles.bg}
             source={require('../images/dark.jpg')} />
         }
-        <H1>Rainfall Data</H1>
         <Card style={styles.mainCardContainer}>
           <FlatList
             data={rainfall.data}
@@ -68,7 +67,7 @@ export default class RainFall extends Component {
               ) }
             }
             ListEmptyComponent={this.noattendanceRecord}
-            keyExtractor={item => item.forecastDate}
+            keyExtractor={item => item.place}
           />
         </Card>
       </SafeAreaView>

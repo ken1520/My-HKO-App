@@ -133,12 +133,12 @@ export default class MainScreen extends Component {
             <MainScreenBtn icon='radio-tower'
               buttonText='9-Day Forecast'
               type='Octicons'
-              action={() => console.log('test')} />
+              action={() => this.props.navigation.navigate('WeatherForecast')} />
 
             <MainScreenBtn icon='water'
               buttonText='Rainfall'
               type='Entypo'
-              action={() => console.log('test')} />
+              action={() => this.props.navigation.navigate('RainFall')} />
           </Grid>
 
           <Card style={styles.mainCardContainer}>

@@ -1,20 +1,53 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
-// StyleSheet
-// Text,
-// View
-} from 'react-native'
-
-console.disableYellowBox = true
-
+  createAppContainer
+} from 'react-navigation'
+import { Dimensions } from 'react-native'
+import { createStackNavigator, StackViewTransitionConfigs } from 'react-navigation-stack'
 import MainScreen from './src/screens/MainScreen'
 import WeatherForecast from './src/screens/WeatherForecast'
 import RainFall from './src/screens/RainFall'
+const { height, width } = Dimensions.get('window')
+console.disableYellowBox = true;
 
-export default class App extends Component {
-  render () {
-    return (
-      <RainFall />
-    )
+const MainStackNavigator = createStackNavigator(
+  {
+    MainScreen: {
+      screen: MainScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          elevation: 5,
+          height: 0
+        }
+      })
+    },
+    WeatherForecast: {
+      screen: WeatherForecast,
+      navigationOptions: ({ navigation }) => ({
+        title: '9-Day Weather Forecast',
+        headerStyle: {
+          elevation: 5,
+          height: height * 0.09
+        }
+      })
+    },
+    RainFall: {
+      screen: RainFall,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Rainfall Data',
+        headerStyle: {
+          elevation: 5,
+          height: height * 0.09
+        }
+      })
+    }
+  },
+  {
+    initialRouteName: 'MainScreen',
+    // mode: 'card',
+    // transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS
   }
-}
+)
+
+const FAMainStack = createAppContainer(MainStackNavigator)
+export default FAMainStack

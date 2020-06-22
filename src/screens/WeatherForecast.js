@@ -47,7 +47,7 @@ export default class WeatherForecast extends Component {
           <Image style={styles.bg}
             source={require('../images/dark.jpg')} />
         }
-        <H1>9-Day Weather Forecast</H1>
+
         <ScrollView>
         <Card style={styles.mainCardContainer}>
           <CardItem style={{ flexDirection: 'column' }}>
@@ -61,7 +61,6 @@ export default class WeatherForecast extends Component {
             refreshing={false}
             renderItem={
               ({ item }) => {
-                console.log(`https://www.hko.gov.hk/images/wxicon/pic${item.ForecastIcon}.png`);
                 return (
                 <CardItem style={styles.forecastCard}>
                   <Image

@@ -9,7 +9,8 @@ export default class MainScreenButton extends Component {
     const {
       buttonText,
       action,
-      icon
+      icon,
+      type
     } = this.props
 
     return (
@@ -19,7 +20,7 @@ export default class MainScreenButton extends Component {
           onPress={action}
         >
           <Grid>
-            <Row style={styles.row}><Icon style={styles.icon} type='Octicons' name={icon} /></Row>
+            <Row style={styles.row}><Icon style={styles.icon} type={type} name={icon} /></Row>
             <Row style={styles.row}><H3 style={styles.btnText}>{buttonText}</H3></Row>
           </Grid>
         </Button>
@@ -32,6 +33,7 @@ MainScreenButton.propTypes = {
   buttonText: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 }
 
 const styles = StyleSheet.create({

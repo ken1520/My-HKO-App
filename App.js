@@ -8,11 +8,12 @@ import {
 console.disableYellowBox = true
 
 import MainScreen from './src/screens/MainScreen'
+import WeatherForecast from './src/screens/WeatherForecast'
 
 export default class App extends Component {
   render () {
     return (
-      <MainScreen />
+      <WeatherForecast />
     )
   }
 }

@@ -13,7 +13,7 @@ import WeatherForecast from './src/screens/WeatherForecast'
 export default class App extends Component {
   render () {
     return (
-      <WeatherForecast />
+      <MainScreen />
     )
   }
 }

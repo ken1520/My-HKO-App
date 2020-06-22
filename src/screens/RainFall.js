@@ -11,21 +11,21 @@ import ForecastItem from '../components/ForecastItem'
 const { height, width } = Dimensions.get('window')
 import dateFormat from 'dateformat'
 
-export default class WeatherForecast extends Component {
+export default class RainFall extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isMorning: true,
-      fnd: ''
+      rainfall: ''
     }
-    this.getWeatherForecast()
+    this.getRainFall()
   }
 
-  getWeatherForecast = () => {
-    axios.get(`${config.hkoapi}weather.php?dataType=fnd&lang=en`)
+  getRainFall = () => {
+    axios.get(`${config.hkoapi}weather.php?dataType=rhrread&lang=en`)
       .then((response) => {
-        console.log(response.data);
-        this.setState({ fnd: response.data })
+        console.log(response.data.rainfall);
+        this.setState({ rainfall: response.data.rainfall })
       })
       .catch((error) => {
         console.log(error);
@@ -34,7 +34,7 @@ export default class WeatherForecast extends Component {
 
   render () {
     const {
-      fnd,
+      rainfall,
     } = this.state
 
     return (
@@ -47,36 +47,22 @@ export default class WeatherForecast extends Component {
           <Image style={styles.bg}
             source={require('../images/dark.jpg')} />
         }
-        <H1>9-Day Weather Forecast</H1>
-        <ScrollView>
-        <Card style={styles.mainCardContainer}>
-          <CardItem style={{ flexDirection: 'column' }}>
-            <Text>{fnd.generalSituation}</Text>
-          </CardItem>
-        </Card>
+        <H1>Rainfall Data</H1>
         <Card style={styles.mainCardContainer}>
           <FlatList
-            data={fnd.weatherForecast}
+            data={rainfall.data}
             extraData={this.state}
             refreshing={false}
             renderItem={
               ({ item }) => {
-                console.log(`https://www.hko.gov.hk/images/wxicon/pic${item.ForecastIcon}.png`);
                 return (
                 <CardItem style={styles.forecastCard}>
-                  <Image
-                    style={styles.weatherIcon}
-                    source={{uri: `https://www.hko.gov.hk/images/wxicon/pic${item.ForecastIcon}.png`}}
-                  />
-                <View style={styles.forecastTextBlock}>
-                    <H3>
-                      {item.forecastDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')} {item.week}
-                    </H3>
-                    <Text>
-                      {item.forecastMintemp.value}°{item.forecastMintemp.unit} -
-                      {item.forecastMaxtemp.value}°{item.forecastMaxtemp.unit}
-                    </Text>
-                    <Text>{item.forecastWeather}</Text>
+                  <View style={styles.forecastTextBlock}>
+                    <H3>{item.place}</H3>
+                    {
+                      item.main == 'TRUE' ? <Icon name='tools' type='FontAwesome5' /> :
+                      <Text>Max: {item.max} {item.unit}</Text>
+                    }
                   </View>
                 </CardItem>
               ) }
@@ -85,7 +71,6 @@ export default class WeatherForecast extends Component {
             keyExtractor={item => item.forecastDate}
           />
         </Card>
-        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -106,14 +91,10 @@ const styles = StyleSheet.create({
   mainCardContainer: {
     width: width * 0.9,
     alignItems: 'center',
-  },
-  weatherIcon: {
-    width: width * 0.12,
-    height: width * 0.12,
-    margin: 10
+    marginBottom: height * 0.05
   },
   forecastTextBlock: {
-    width: width * 0.6,
+    width: width * 0.7,
     margin: 10,
 
   },

@@ -29,7 +29,7 @@ export default class MainScreen extends Component {
     // });
     this.getLocalWeather()
     this.getCurrentWeather()
-    this.getSpecialTips()
+    this.getSpecialTips(1)
   }
 
   getCurrentWeather = () => {
@@ -54,12 +54,19 @@ export default class MainScreen extends Component {
       })
   }
 
-  getSpecialTips = () => {
+  getSpecialTips = (option) => {
+    console.log('getSpecialTips');
     axios.get(`${config.hkoapi}weather.php?dataType=swt&lang=en`)
       .then((response) => {
         this.setState({ specialTips: response.data })
-        if (response.data.swt.length > 0) {
+        // option 1: for fetching data when opening the app
+        // option 2: for fetching data when pressing the button
+        if (option === 2) {
           this.setState({ swtModalVisible: true })
+        } else {
+          if (response.data.swt.length > 0) {
+            this.setState({ swtModalVisible: true })
+          }
         }
       })
       .catch((error) => {
@@ -79,19 +86,15 @@ export default class MainScreen extends Component {
       <SafeAreaView style={styles.container}>
         {
           this.state.isMorning ?
-          <Image style={styles.bg}
-            source={require('../images/morning.jpg')} />
-          :
-          <Image style={styles.bg}
-            source={require('../images/dark.jpg')} />
+          <Image style={styles.bg} source={require('../images/morning.jpg')} /> :
+          <Image style={styles.bg} source={require('../images/dark.jpg')} />
         }
 
         <H1>My Hong Kong Observatory</H1>
         <ScrollView>
           <Card style={styles.mainCardContainer}>
             <H2>{dateFormat(new Date(), 'yyyy-mm-dd')}</H2>
-            <Image
-              style={styles.weatherIcon}
+            <Image style={styles.weatherIcon}
               source={{uri: `https://www.hko.gov.hk/images/wxicon/pic${currentWeather.icon}.png`}}
             />
             <CardItem>
@@ -119,14 +122,15 @@ export default class MainScreen extends Component {
             </Grid>
             </CardItem>
             {
-              (specialTips && specialTips.swt.length > 0) && (
+              // (specialTips && specialTips.swt.length > 0) && (
                 <CardItem>
-                  <Button iconLeft danger>
+                  <Button iconLeft danger
+                    onPress={() => this.getSpecialTips(2)}>
                     <Icon type='Ionicons' name='md-alert' />
                     <Text>Special Weather Tips</Text>
                   </Button>
                 </CardItem>
-              )
+              // )
             }
           </Card>
           <Grid>
@@ -164,8 +168,7 @@ export default class MainScreen extends Component {
           isVisible={swtModalVisible}
           transparent={true}>
           <View style={styles.swtModal}>
-            <CloseModalBtn color='black'
-              action={() => { this.setState({ swtModalVisible: !this.state.swtModalVisible }) }} />
+            <CloseModalBtn color='black' action={() => { this.setState({ swtModalVisible: !swtModalVisible }) }} />
             <Grid>
               <Row style={styles.center} size={1}>
                 <H3>Special Weather Tips</H3>
@@ -173,8 +176,9 @@ export default class MainScreen extends Component {
               <Row style={styles.center} size={5}>
                 <Text>
                   {
-                    (specialTips && specialTips.swt.length > 0) &&
-                    (specialTips && specialTips.swt[0].desc)
+                    (specialTips && specialTips.swt.length > 0) ?
+                    (specialTips && specialTips.swt[0].desc) :
+                    'No Special Tips Now'
                   }
                 </Text>
               </Row>

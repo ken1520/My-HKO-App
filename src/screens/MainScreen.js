@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  SafeAreaView, StyleSheet, Dimensions, Image, View, ScrollView
+  SafeAreaView, StyleSheet, Dimensions, Image, View, ScrollView, RefreshControl
 } from 'react-native'
 import {
   Text, H1, H2, H3, Card, CardItem, Grid, Row, Col, Icon, Button
@@ -21,7 +21,8 @@ export default class MainScreen extends Component {
       localWeather: '',
       currentWeather: '',
       specialTips: undefined,
-      swtModalVisible: false
+      swtModalVisible: false,
+      refreshing: false,
     }
     // this._isMounted = false;
     // NetInfo.get().then(state => {
@@ -74,12 +75,19 @@ export default class MainScreen extends Component {
       })
   }
 
+  onRefresh = () => {
+    this.getLocalWeather()
+    this.getCurrentWeather()
+    this.getSpecialTips(1)
+  }
+
   render () {
     const {
       currentWeather,
       localWeather,
       specialTips,
-      swtModalVisible
+      swtModalVisible,
+      refreshing
     } = this.state
 
     return (
@@ -91,7 +99,13 @@ export default class MainScreen extends Component {
         }
 
         <H1>My Hong Kong Observatory</H1>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }>
           <Card style={styles.mainCardContainer}>
             <H2>{dateFormat(new Date(), 'yyyy-mm-dd')}</H2>
             <Image style={styles.weatherIcon}

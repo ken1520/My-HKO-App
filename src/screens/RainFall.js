@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  SafeAreaView, StyleSheet, Dimensions, Image, View, FlatList, ScrollView, ListItem
+  SafeAreaView, StyleSheet, Dimensions, Image, View, FlatList, ScrollView, RefreshControl
 } from 'react-native'
 import {
   Text, H1, H2, H3, Card, CardItem, Grid, Row, Col, Icon, Button, Left
@@ -10,26 +10,46 @@ import config from '../config/setting'
 import ForecastItem from '../components/ForecastItem'
 const { height, width } = Dimensions.get('window')
 import dateFormat from 'dateformat'
+import { NavigationEvents } from 'react-navigation'
 
 export default class RainFall extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isMorning: true,
-      rainfall: ''
+      date: '',
+      isMorning: '',
+      rainfall: '',
     }
     this.getRainFall()
+    this.handleDate()
   }
 
   getRainFall = () => {
     axios.get(`${config.hkoapi}weather.php?dataType=rhrread&lang=en`)
       .then((response) => {
-        console.log(response.data.rainfall);
         this.setState({ rainfall: response.data.rainfall })
       })
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  handleDate = () => {
+    let now = new Date()
+    this.setState({ date: now })
+    var dusk = new Date();
+    dusk.setHours(18,30,0); // 6.30 pm
+    if (now >= dusk) {
+      console.log('dusk');
+      this.setState({ isMorning: false })
+    } else {
+      this.setState({ isMorning: true })
+    }
+  }
+
+  onRefresh = () => {
+    this.getRainFall()
+    this.handleDate()
   }
 
   render () {
@@ -41,17 +61,18 @@ export default class RainFall extends Component {
       <SafeAreaView style={styles.container}>
         {
           this.state.isMorning ?
-          <Image style={styles.bg}
-            source={require('../images/morning.jpg')} />
-          :
-          <Image style={styles.bg}
-            source={require('../images/dark.jpg')} />
+          <Image style={styles.bg} source={require('../images/morning.jpg')} /> :
+          <Image style={styles.bg} source={require('../images/dark.jpg')} />
         }
+        <NavigationEvents
+          onWillFocus={() => this.handleDate()}
+        />
         <Card style={styles.mainCardContainer}>
           <FlatList
             data={rainfall.data}
             extraData={this.state}
             refreshing={false}
+            onRefresh={this.onRefresh}
             renderItem={
               ({ item }) => {
                 return (

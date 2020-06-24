@@ -17,20 +17,18 @@ export default class MainScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isMorning: true,
+      date: '',
+      isMorning: '',
       localWeather: '',
       currentWeather: '',
       specialTips: undefined,
       swtModalVisible: false,
       refreshing: false,
     }
-    // this._isMounted = false;
-    // NetInfo.get().then(state => {
-    //   this.setState({ isNetworkConnected: state.isConnected })
-    // });
     this.getLocalWeather()
     this.getCurrentWeather()
     this.getSpecialTips(1)
+    this.handleDate()
   }
 
   getCurrentWeather = () => {
@@ -42,6 +40,19 @@ export default class MainScreen extends Component {
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  handleDate = () => {
+    let now = new Date()
+    this.setState({ date: now })
+    var dusk = new Date();
+    dusk.setHours(18,30,0); // 6.30 pm
+    if (now >= dusk) {
+      console.log('dusk');
+      this.setState({ isMorning: false })
+    } else {
+      this.setState({ isMorning: true })
+    }
   }
 
   getLocalWeather = () => {
@@ -79,10 +90,12 @@ export default class MainScreen extends Component {
     this.getLocalWeather()
     this.getCurrentWeather()
     this.getSpecialTips(1)
+    this.handleDate()
   }
 
   render () {
     const {
+      date,
       currentWeather,
       localWeather,
       specialTips,
@@ -107,7 +120,7 @@ export default class MainScreen extends Component {
             />
           }>
           <Card style={styles.mainCardContainer}>
-            <H2>{dateFormat(new Date(), 'yyyy-mm-dd')}</H2>
+            <H2>{dateFormat(date, 'yyyy-mm-dd')}</H2>
             <Image style={styles.weatherIcon}
               source={{uri: `https://www.hko.gov.hk/images/wxicon/pic${currentWeather.icon}.png`}}
             />

@@ -149,7 +149,7 @@ export default class MainScreen extends Component {
             </Grid>
             </CardItem>
             {
-              // (specialTips && specialTips.swt.length > 0) && (
+              (specialTips && specialTips.swt.length > 0) && (
                 <CardItem>
                   <Button iconLeft danger
                     onPress={() => this.getSpecialTips(2)}>
@@ -157,7 +157,7 @@ export default class MainScreen extends Component {
                     <Text>Special Weather Tips</Text>
                   </Button>
                 </CardItem>
-              // )
+              )
             }
           </Card>
           <Grid>

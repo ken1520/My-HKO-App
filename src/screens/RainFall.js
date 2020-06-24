@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  SafeAreaView, StyleSheet, Dimensions, Image, View, FlatList, ScrollView, RefreshControl
+  SafeAreaView, StyleSheet, Dimensions, Image, View, FlatList, ScrollView, RefreshControl, Alert
 } from 'react-native'
 import {
   Text, H1, H2, H3, Card, CardItem, Grid, Row, Col, Icon, Button, Left
@@ -30,7 +30,7 @@ export default class RainFall extends Component {
         this.setState({ rainfall: response.data.rainfall })
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert(config.alertbox_header, error)
       })
   }
 

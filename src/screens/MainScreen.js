@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  SafeAreaView, StyleSheet, Dimensions, Image, View, ScrollView, RefreshControl
+  SafeAreaView, StyleSheet, Dimensions, Image, View, ScrollView, RefreshControl, Alert
 } from 'react-native'
 import {
   Text, H1, H2, H3, Card, CardItem, Grid, Row, Col, Icon, Button
@@ -37,7 +37,7 @@ export default class MainScreen extends Component {
         this.setState({ currentWeather: response.data })
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert(config.alertbox_header, error)
       })
   }
 

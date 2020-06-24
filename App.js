@@ -15,8 +15,9 @@ const MainStackNavigator = createStackNavigator(
     MainScreen: {
       screen: MainScreen,
       navigationOptions: ({ navigation }) => ({
+        title: '',
         headerStyle: {
-          elevation: 5,
+          elevation: 0,
           height: 0
         }
       })

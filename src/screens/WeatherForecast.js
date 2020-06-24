@@ -27,7 +27,6 @@ export default class WeatherForecast extends Component {
   getWeatherForecast = () => {
     axios.get(`${config.hkoapi}weather.php?dataType=fnd&lang=en`)
       .then((response) => {
-        console.log(response.data);
         this.setState({ fnd: response.data })
       })
       .catch((error) => {
@@ -41,7 +40,6 @@ export default class WeatherForecast extends Component {
     var dusk = new Date();
     dusk.setHours(18,30,0); // 6.30 pm
     if (now >= dusk) {
-      console.log('dusk');
       this.setState({ isMorning: false })
     } else {
       this.setState({ isMorning: true })

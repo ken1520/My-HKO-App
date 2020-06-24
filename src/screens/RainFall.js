@@ -40,7 +40,6 @@ export default class RainFall extends Component {
     var dusk = new Date();
     dusk.setHours(18,30,0); // 6.30 pm
     if (now >= dusk) {
-      console.log('dusk');
       this.setState({ isMorning: false })
     } else {
       this.setState({ isMorning: true })

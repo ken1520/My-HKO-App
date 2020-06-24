@@ -34,7 +34,6 @@ export default class MainScreen extends Component {
   getCurrentWeather = () => {
     axios.get(`${config.hkoapi}weather.php?dataType=rhrread&lang=en`)
       .then((response) => {
-        console.log(response.data);
         this.setState({ currentWeather: response.data })
       })
       .catch((error) => {
@@ -48,7 +47,6 @@ export default class MainScreen extends Component {
     var dusk = new Date();
     dusk.setHours(18,30,0); // 6.30 pm
     if (now >= dusk) {
-      console.log('dusk');
       this.setState({ isMorning: false })
     } else {
       this.setState({ isMorning: true })
@@ -58,7 +56,6 @@ export default class MainScreen extends Component {
   getLocalWeather = () => {
     axios.get(`${config.hkoapi}weather.php?dataType=flw&lang=en`)
       .then((response) => {
-        console.log(response.data);
         this.setState({ localWeather: response.data })
       })
       .catch((error) => {
@@ -67,7 +64,6 @@ export default class MainScreen extends Component {
   }
 
   getSpecialTips = (option) => {
-    console.log('getSpecialTips');
     axios.get(`${config.hkoapi}weather.php?dataType=swt&lang=en`)
       .then((response) => {
         this.setState({ specialTips: response.data })
